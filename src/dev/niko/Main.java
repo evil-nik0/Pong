@@ -28,14 +28,15 @@ public class Main {
 			p.update();
 			
 			//chequeo de colisiones
-			if(p.posicion.y - (p.diametro-1)/2 < 0 || p.posicion.y + (p.diametro-1)/2 > Cancha.height) {
+			if(p.posicion.y - (p.diametro)/2 < 0 || p.posicion.y + (p.diametro)/2 > Cancha.height) {
 				p.velocidad.y *= -1;
 				p.update();
 			}
-			
+				
 			
 			pres.repaint();
 		}
 
 	}
+	
 }

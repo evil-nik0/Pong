@@ -7,14 +7,14 @@ public class Raqueta implements KeyListener {
 	public int player;
 	public boolean P1UP, P1DOWN, P2UP, P2DOWN;
 	
-	public static int LONGITUD = 103;
-	public static int ANCHO = 23;
+	public static int LONGITUD = 102;
+	public static int ANCHO = 24;
 	public static double VELOCIDAD = 10;
 	public static int X_POS_P1 = ANCHO;
 	public static int X_POS_P2 = Cancha.width - ANCHO;
 	
 	static {
-		if(LONGITUD % 2 == 0 || ANCHO % 2 == 0) throw new RuntimeException("Las raquetas tienen que tener longitud y ancho impares !!");
+		if(LONGITUD % 2 != 0 || ANCHO % 2 != 0) throw new RuntimeException("Las raquetas tienen que tener longitud y ancho pares !!");
 	}
 	
 	
@@ -30,8 +30,8 @@ public class Raqueta implements KeyListener {
 		else if(player == 2 && P2UP) alturaCentro -= VELOCIDAD;
 		else if(player == 2 && P2DOWN) alturaCentro += VELOCIDAD;
 		
-		if(alturaCentro - (LONGITUD-1)/2 < 0) alturaCentro = (LONGITUD+1)/2;
-		else if(alturaCentro + (LONGITUD-1)/2 > Cancha.height) alturaCentro = Cancha.height - (LONGITUD-1)/2;
+		if(alturaCentro - (LONGITUD)/2 < 0) alturaCentro = (LONGITUD)/2;
+		else if(alturaCentro + (LONGITUD)/2 > Cancha.height) alturaCentro = Cancha.height - (LONGITUD)/2;
 	}
 	
 	public void keyPressed(KeyEvent e) {

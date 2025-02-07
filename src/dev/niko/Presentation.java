@@ -39,12 +39,12 @@ public class Presentation extends Frame {
 	
 		if(doubleBuffer == null) return;
 	
-		int xP1 = P1.X_POS_P1 - (P1.ANCHO-1)/2;
-		int yP1 = Double.valueOf(Math.floor(P1.alturaCentro)).intValue() - (P1.LONGITUD-1)/2;
-		int xP2 = P2.X_POS_P2 - (P2.ANCHO-1)/2;
-		int yP2 = Double.valueOf(Math.floor(P2.alturaCentro)).intValue() - (P2.LONGITUD-1)/2;
-		int xp = Double.valueOf(Math.floor(p.posicion.x)).intValue() - (p.diametro-1)/2;
-		int yp = Double.valueOf(Math.floor(p.posicion.y)).intValue() - (p.diametro-1)/2;
+		int xP1 = P1.X_POS_P1 - (P1.ANCHO)/2;
+		int yP1 = Double.valueOf(Math.floor(P1.alturaCentro)).intValue() - (P1.LONGITUD)/2;
+		int xP2 = P2.X_POS_P2 - (P2.ANCHO)/2;
+		int yP2 = Double.valueOf(Math.floor(P2.alturaCentro)).intValue() - (P2.LONGITUD)/2;
+		int xp = Double.valueOf(Math.floor(p.posicion.x)).intValue() - (p.diametro)/2;
+		int yp = Double.valueOf(Math.floor(p.posicion.y)).intValue() - (p.diametro)/2;
 		Graphics frameG = g;
 		g = doubleBuffer.getGraphics();
 			
