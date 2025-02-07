@@ -32,11 +32,26 @@ public class Main {
 				p.velocidad.y *= -1;
 				p.update();
 			}
-				
+			if(areRectanglesColliding(p.r, p1.r) || areRectanglesColliding(p.r, p2.r)) {
+				p.velocidad.x *= -1;
+				p.update();
+			}
 			
 			pres.repaint();
 		}
 
+	}
+	
+	public static boolean areRectanglesColliding(Rectangle r1, Rectangle r2) {
+		if(areIntervalsDisjoint( r1.x, r1.x+r1.width, r2.x, r2.x+r2.width )) return false;
+		if(areIntervalsDisjoint( r1.y, r1.y+r1.height, r2.y, r2.y+r2.height )) return false;
+		return true;
+	}
+	
+	public static boolean areIntervalsDisjoint(double i1, double f1, double i2, double f2) {
+		if(i2-i1 > f1 - i1) return true;
+		else if(i2-i1 < 0 && f2-i1 < 0) return true;
+		else return false;
 	}
 	
 }

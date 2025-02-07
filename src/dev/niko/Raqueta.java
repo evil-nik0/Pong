@@ -6,6 +6,7 @@ public class Raqueta implements KeyListener {
 	public double alturaCentro;
 	public int player;
 	public boolean P1UP, P1DOWN, P2UP, P2DOWN;
+	public Rectangle r;
 	
 	public static int LONGITUD = 102;
 	public static int ANCHO = 24;
@@ -23,6 +24,19 @@ public class Raqueta implements KeyListener {
 		this.player = player;
 		alturaCentro = Cancha.height / 2;
 		P1UP = P1DOWN = P2UP = P2DOWN = false;
+		
+		r = new Rectangle();
+		if(player == 1) {
+			r.x = X_POS_P1 - ANCHO / 2;
+			r.y = alturaCentro - LONGITUD / 2;
+			r.width = ANCHO;
+			r.height = LONGITUD;
+		} else if(player == 2) {
+			r.x = X_POS_P2 - ANCHO / 2;
+			r.y = alturaCentro - LONGITUD / 2;
+			r.width = ANCHO;
+			r.height = LONGITUD;
+		}
 	}
 	public void update() {
 		if(player == 1 && P1UP) alturaCentro -= VELOCIDAD;
@@ -32,6 +46,8 @@ public class Raqueta implements KeyListener {
 		
 		if(alturaCentro - (LONGITUD)/2 < 0) alturaCentro = (LONGITUD)/2;
 		else if(alturaCentro + (LONGITUD)/2 > Cancha.height) alturaCentro = Cancha.height - (LONGITUD)/2;
+		
+		r.y = alturaCentro - LONGITUD / 2;
 	}
 	
 	public void keyPressed(KeyEvent e) {
