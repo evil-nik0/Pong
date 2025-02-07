@@ -1,20 +1,24 @@
 package dev.niko;
 
+import java.util.Random;
+
 public class Pelotita {
 	public Vector posicion;
 	public Vector velocidad;
 	public static int diametro = 20;
 	public Rectangle r;
 	
-	public static Vector VELOCIDAD_INICIAL = new Vector(4, 2);
+	public static double VELOCIDAD_MODULO = 10;
+	public static Random randomGen;
 	
 	static {
 		if(diametro % 2 != 0) throw new RuntimeException("El diametro de la pelotita tiene que ser un numero par!!");
+		randomGen = new Random();
 	}
 	
 	public Pelotita() {
 		this.posicion = new Vector(Cancha.width/2, Cancha.height/2);
-		this.velocidad = VELOCIDAD_INICIAL;
+		randomizeVelocity();
 		r = new Rectangle();
 		r.x = posicion.x - diametro / 2;
 		r.y = posicion.y - diametro / 2;
@@ -24,7 +28,14 @@ public class Pelotita {
 	
 	public void reiniciar() {
 		this.posicion = new Vector(Cancha.width/2, Cancha.height/2);
-		this.velocidad = VELOCIDAD_INICIAL;
+		randomizeVelocity();
+	}
+	
+	private void randomizeVelocity() {
+		double vy = randomGen.nextInt() % 10;
+		double vxRand = Math.sqrt( VELOCIDAD_MODULO * VELOCIDAD_MODULO - vy * vy );
+		double vx = randomGen.nextBoolean() ? vxRand : vxRand * (-1);
+		velocidad = new Vector(vx, vy);
 	}
 	
 	public void update() {

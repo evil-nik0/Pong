@@ -36,6 +36,15 @@ public class Main {
 				p.velocidad.x *= -1;
 				p.update();
 			}
+			if(p.posicion.x - p.diametro / 2 <= 0) {
+				Score.p2Score++;
+				Score.ultimoPunto = 2;
+				p.reiniciar();
+			} else if(p.posicion.x + p.diametro / 2 >= Cancha.width) {
+				Score.p1Score++;
+				Score.ultimoPunto = 1;
+				p.reiniciar();
+			}
 			
 			pres.repaint();
 		}
