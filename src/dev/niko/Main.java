@@ -32,7 +32,7 @@ public class Main {
 				p.velocidad.y *= -1;
 				p.update();
 			}
-			if()
+			
 			
 			pres.repaint();
 		}
