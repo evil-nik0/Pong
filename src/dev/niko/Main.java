@@ -13,12 +13,14 @@ public class Main {
 		pres.init(p1, p2, p);
 		long mSPF = Math.floorDiv(1000, FPS);
 		long iTime;
+		double[] colisionp1, colisionp2;
 		
 		pres.addKeyListener(p1);
 		pres.addKeyListener(p2);
 		pres.addKeyListener(ctrles);
 		
 		
+		//se requiere un latido del modelo cada 1/FPS segundos
 		iTime = System.currentTimeMillis();
 		while(true) if( System.currentTimeMillis() - iTime > mSPF ) {
 			iTime = System.currentTimeMillis();
@@ -36,7 +38,18 @@ public class Main {
 				p.update();
 			}
 			//choque con raquetas
-			//punto!
+			colisionp1 = PhysicsEngine.areRectanglesColliding(p, p1);
+			colisionp2 = PhysicsEngine.areRectanglesColliding(p, p2);
+			if(colisionp1[1] != -1) {
+				Vector normalConMTV = Vector.crearUnitario(colisionp1[1]);
+				normalConMTV.multiplicar(colisionp1[0]);
+				p.x += normalConMTV.x;
+				p.y += normalConMTV.y;
+				
+			} else if(colisionp2[1] != -1) {
+				
+			}
+			//bingo! osea, choque con linea de puntos
 			if(p.posicion.x - p.diametro / 2 <= 0) {
 				Score.p2Score++;
 				Score.ultimoPunto = 2;
