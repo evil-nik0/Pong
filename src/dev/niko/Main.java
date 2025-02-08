@@ -27,15 +27,16 @@ public class Main {
 			p2.update();
 			p.update();
 			
-			//chequeo de colisiones
+			/*
+			 * chequeo de colisiones
+			 */
+			//choque con paredes
 			if(p.posicion.y - (p.diametro)/2 < 0 || p.posicion.y + (p.diametro)/2 > Cancha.height) {
 				p.velocidad.y *= -1;
 				p.update();
 			}
-			if(areRectanglesColliding(p.r, p1.r) || areRectanglesColliding(p.r, p2.r)) {
-				p.velocidad.x *= -1;
-				p.update();
-			}
+			//choque con raquetas
+			//punto!
 			if(p.posicion.x - p.diametro / 2 <= 0) {
 				Score.p2Score++;
 				Score.ultimoPunto = 2;
@@ -50,17 +51,4 @@ public class Main {
 		}
 
 	}
-	
-	public static boolean areRectanglesColliding(Rectangle r1, Rectangle r2) {
-		if(areIntervalsDisjoint( r1.x, r1.x+r1.width, r2.x, r2.x+r2.width )) return false;
-		if(areIntervalsDisjoint( r1.y, r1.y+r1.height, r2.y, r2.y+r2.height )) return false;
-		return true;
-	}
-	
-	public static boolean areIntervalsDisjoint(double i1, double f1, double i2, double f2) {
-		if(i2-i1 > f1 - i1) return true;
-		else if(i2-i1 < 0 && f2-i1 < 0) return true;
-		else return false;
-	}
-	
 }
