@@ -38,7 +38,7 @@ public class Main {
 				p.update();
 			}
 			//choque con raquetas
-			colisionp1 = PhysicsEngine.areRectanglesColliding(p, p1);
+			/*colisionp1 = PhysicsEngine.areRectanglesColliding(p, p1);
 			colisionp2 = PhysicsEngine.areRectanglesColliding(p, p2);
 			if(colisionp1[1] != -1) {
 				Vector normalConMTV = Vector.crearUnitario(colisionp1[1]);
@@ -48,7 +48,7 @@ public class Main {
 				
 			} else if(colisionp2[1] != -1) {
 				
-			}
+			} */
 			//bingo! osea, choque con linea de puntos
 			if(p.posicion.x - p.diametro / 2 <= 0) {
 				Score.p2Score++;
