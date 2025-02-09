@@ -12,6 +12,10 @@ public class Vector {
 		return new Vector(u.x+v.x, u.y+v.y);
 	}
 	
+	public static Vector resta(Vector f, Vector i) {
+		return new Vector( f.x - i.x, f.y - i.y );
+	}
+	
 	//angulo está especificado en degrees, radianes es para nerds <-- eso lo escribí antes de saber que Math.cos y Math.sin usan radianes.
 	//por qué nadie me lo dijo debo haber quedado cómo un idiota !!!
 	public static Vector crearUnitario(double angulo) {
@@ -21,16 +25,18 @@ public class Vector {
 		return new Vector(Math.cos(radians), Math.sin(radians));
 	}
 	
-	public static void multiplicacionEscalar(Vector v, double escalar) {
-		v.x *= escalar;
-		v.y *= escalar;
+	public static Vector multiplicacionEscalar(Vector v, double escalar) {
+		Vector respuesta = new Vector(0, 0);
+		respuesta.x = v.x * escalar;
+		respuesta.y = v.y * escalar;
+		return respuesta;
 	}
 	
 	public double modulo() {
 		return Math.sqrt(x*x + y*y);
 	}
 	
-	public static Vector productoEscalar(Vector u, Vector v) {
+	public static double productoEscalar(Vector u, Vector v) {
 		return u.x * v.x + u.y * v.y;
 	}
 	
@@ -39,8 +45,17 @@ public class Vector {
 		String.format("Ojo! Se llamo a Vector.proyeccion() con un vector de dirección que no tiene módulo 1: v=%s, d=%s", v.toString(), d.toString())
 		);
 		
-		return multiplicacionEscalar( d, productoEscalar(v, d).modulo() );
+		return multiplicacionEscalar( d, productoEscalar(v, d) );
 		
+	}
+	
+	public static Vector reflejarConRespectoANormal(Vector v, Vector n) {
+		if(n.modulo() != 1) System.out.println("Ojo! Se paso a reflejarConRespectoANormal() una normal con módulo distinto de 1, no sé si funciona así");
+		
+		Vector proyeccionEnNormal = Vector.proyeccion(v, n);
+		Vector proyeccionEnPerpANormal = Vector.resta( v, proyeccionEnNormal );
+		proyeccionEnNormal = Vector.multiplicacionEscalar(proyeccionEnNormal, -1);
+		return Vector.suma(proyeccionEnNormal, proyeccionEnPerpANormal);
 	}
 	
 	public String toString() {

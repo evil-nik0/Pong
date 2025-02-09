@@ -20,7 +20,8 @@ public class Main {
 		pres.addKeyListener(ctrles);
 		
 		
-		//se requiere un latido del modelo cada 1/FPS segundos
+		//se requiere un latido del modelo cada 1/FPS segundos. En el caso de que un latido ocupe un intervalo temporal mayor al aquél cociente, el siguiente latido
+		//comienza inmediatamente terminado el anterior
 		iTime = System.currentTimeMillis();
 		while(true) if( System.currentTimeMillis() - iTime > mSPF ) {
 			iTime = System.currentTimeMillis();
@@ -38,17 +39,24 @@ public class Main {
 				p.update();
 			}
 			//choque con raquetas
-			/*colisionp1 = PhysicsEngine.areRectanglesColliding(p, p1);
-			colisionp2 = PhysicsEngine.areRectanglesColliding(p, p2);
+			colisionp1 = PhysicsEngine.areRectanglesColliding(p.r, p1.r);
+			colisionp2 = PhysicsEngine.areRectanglesColliding(p.r, p2.r);
 			if(colisionp1[1] != -1) {
-				Vector normalConMTV = Vector.crearUnitario(colisionp1[1]);
-				normalConMTV.multiplicar(colisionp1[0]);
-				p.x += normalConMTV.x;
-				p.y += normalConMTV.y;
+				Vector normal = Vector.crearUnitario(colisionp1[1]), normalConMTV;
+				if(colisionp1[1] == 90 && p.posicion.y > p1.alturaCentro) //la pelotita chocó con la cara inferior de la raqueta
+					normal = Vector.multiplicacionEscalar(normal, -1);
+				else if(colisionp1[1] == 45 && p.posicion.y > p1.alturaCentro) //la pelotita chocó con la esquina inferior izquierda de la raqueta
+					normal.y *= -1;
+				normalConMTV = Vector.multiplicacionEscalar( normal, colisionp1[0] );
+				
+				p.posicion = Vector.suma(p.posicion, normalConMTV); //ahora la pelotita no está dentro de la raqueta
+				p.velocidad = Vector.reflejarConRespectoANormal( p.velocidad, normal ); //ahora se invirtió la velocidad con la ley de Schnell
+				
+				
 				
 			} else if(colisionp2[1] != -1) {
 				
-			} */
+			}
 			//bingo! osea, choque con linea de puntos
 			if(p.posicion.x - p.diametro / 2 <= 0) {
 				Score.p2Score++;
