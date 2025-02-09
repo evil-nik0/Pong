@@ -19,7 +19,7 @@ public class Vector {
 	//angulo está especificado en degrees, radianes es para nerds <-- eso lo escribí antes de saber que Math.cos y Math.sin usan radianes.
 	//por qué nadie me lo dijo debo haber quedado cómo un idiota !!!
 	public static Vector crearUnitario(double angulo) {
-		if(angulo < 0) System.out.println("Se mandó un ángulo negativo a Vector.crearUnitario(), no estoy seguro si funciona bien con ésto");
+		if(angulo < 0) System.out.println("Se mandó un ángulo negativo a Vector.crearUnitario(), no estoy seguro si funciona bien con ésto: " + angulo);
 		
 		double radians = Math.toRadians(angulo);
 		return new Vector(Math.cos(radians), Math.sin(radians));
