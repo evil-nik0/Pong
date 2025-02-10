@@ -43,6 +43,7 @@ public class Main {
 			colisionp2 = PhysicsEngine.areRectanglesColliding(p.r, p2.r);
 			if(colisionp1[1] != -1) {
 				Vector normal = Vector.crearUnitario(colisionp1[1]), normalConMTV;
+				double porcentajeDeAlejamientoDelCentro; 
 				if(colisionp1[1] == 90 && p.posicion.y > p1.alturaCentro) //la pelotita chocó con la cara inferior de la raqueta
 					normal = Vector.multiplicacionEscalar(normal, -1);
 				else if(colisionp1[1] == 45 && p.posicion.y > p1.alturaCentro) //la pelotita chocó con la esquina inferior izquierda de la raqueta
@@ -50,11 +51,17 @@ public class Main {
 				normalConMTV = Vector.multiplicacionEscalar( normal, colisionp1[0] );
 				
 				p.posicion = Vector.suma(p.posicion, normalConMTV); //ahora la pelotita no está dentro de la raqueta
-				p.velocidad = Vector.reflejarConRespectoANormal( p.velocidad, normal ); //ahora se invirtió la velocidad con la ley de Schnell
+				p.velocidad = Vector.reflejarConRespectoANormal( p.velocidad, normal ); //ahora se invirtió la velocidad (mirar guitarreada 1)
+				
+				porcentajeDeAlejamientoDelCentro = (p.posicion.y-p1.alturaCentro) / ( p1.LONGITUD/2 + p.diametro/2 );
+				p.velocidad.y = p.VELOCIDAD_MODULO * porcentajeDeAlejamientoDelCentro;
+				p.velocidad.x /= p.velocidad.x;
+				p.velocidad.x *= Math.sqrt(p.VELOCIDAD_MODULO * p.VELOCIDAD_MODULO - p.velocidad.y * p.velocidad.y);
 			} else if(colisionp2[1] != -1) {
 				Vector normal = Vector.crearUnitario(colisionp2[1]), normalConMTV;
+				double porcentajeDeAlejamientoDelCentro; 
 				if(colisionp2[1] == 0) normal = Vector.multiplicacionEscalar(normal, -1); //el angulo en realidad sera 180 porque chocó con la cara izquierda
-				else if(colisionp2[1] == 90 && p.posicion.y > p2.alturaCentro) //la pelotita chocó con la cara inferior de la raqueta
+				else if(colisionp2[1] == 90 && p.posicion.y < p2.alturaCentro) //la pelotita chocó con la cara inferior de la raqueta
 					normal = Vector.multiplicacionEscalar(normal, -1);
 				else if(colisionp2[1] == 45) //la pelotita chocó con una esquina izquierda, inferior o superior. Los ángulos de la normal serán 225 o 135 respect
 					if(p.posicion.y > p2.alturaCentro) {
@@ -66,7 +73,12 @@ public class Main {
 				normalConMTV = Vector.multiplicacionEscalar( normal, colisionp2[0] );
 				
 				p.posicion = Vector.suma(p.posicion, normalConMTV); //ahora la pelotita no está dentro de la raqueta
-				p.velocidad = Vector.reflejarConRespectoANormal( p.velocidad, normal ); //ahora se invirtió la velocidad con la ley de Schnell
+				p.velocidad = Vector.reflejarConRespectoANormal( p.velocidad, normal ); //ahora se invirtió la velocidad (mirar guitarreada 1)
+				
+				porcentajeDeAlejamientoDelCentro = (p.posicion.y-p2.alturaCentro) / ( p2.LONGITUD/2 + p.diametro/2 );
+				p.velocidad.y = p.VELOCIDAD_MODULO * porcentajeDeAlejamientoDelCentro;
+				p.velocidad.x /= (-p.velocidad.x);
+				p.velocidad.x *= Math.sqrt(p.VELOCIDAD_MODULO * p.VELOCIDAD_MODULO - p.velocidad.y * p.velocidad.y);
 			}
 			//bingo! osea, choque con linea de puntos
 			if(p.posicion.x - p.diametro / 2 <= 0) {
@@ -80,7 +92,22 @@ public class Main {
 			}
 			
 			pres.repaint();
+			
+			if(ctrles.isZPressed()) mSPF = Math.floorDiv(1000, 10);
+			else mSPF = Math.floorDiv(1000, FPS);
 		}
 
 	}
 }
+
+
+
+/*
+ * NOTA 1: cabe destacar que éste algoritmo tan sui generis para la respuesta de colisión, que no está basado en el modelo de la transferencia de momento de la física cinemática,
+ * tiene un error en el contexto actual, y es que al producirse una colisión del proyectil con una línea horizontal del recipiente, la inversión del vector con respecto a la 
+ * normal se produce incorrectamente, porque el susodicho vector invierte su dirección múltiples veces, SÓLO en el caso de que el recipiente se encuentre en movimiento.
+ * Entonces, en pocas palabras, anda pal poto.
+ * PEEERO la solución para ésto es sencilla: hacer la raqueta tan finita que la probabilidad de un choque con respuesta incorrecto sea lo más cercano posible a cero, sin 
+ * comprometer la integridad de la experiencia del usuario.
+ * Así que, MISSION ... COMPRIT !!!
+*/

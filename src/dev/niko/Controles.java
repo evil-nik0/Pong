@@ -3,33 +3,30 @@ package dev.niko;
 import java.awt.event.*;
 
 public class Controles implements KeyListener {
-	private boolean listeningSpace;
-	private boolean spacePressed;
+
 	private boolean pressingSpace;
+	private boolean pressingZ;
 	
 	public Controles() {
-		listeningSpace = false;
-		spacePressed = false;
 		pressingSpace = false;
+		pressingZ = false;
 	}
 	
-	public void listenForSpace() {
-		listeningSpace = true;
-		spacePressed = false;
+	public boolean isZPressed() {
+		return pressingZ;
 	}
+	
 	public boolean isSpacePressed() {
-		if(!spacePressed) return false;
-		else {
-			listeningSpace = false;
-			return true;
-		}
+		return pressingSpace;
 	}
 	
 	public void keyPressed(KeyEvent e) {
-		if(!listeningSpace) return;
-		else switch(e.getKeyCode()) {
+		switch(e.getKeyCode()) {
 			case KeyEvent.VK_SPACE:
 				pressingSpace = true;
+				break;
+			case KeyEvent.VK_Z:
+				pressingZ = true;
 				break;
 			default:
 				
@@ -41,8 +38,10 @@ public class Controles implements KeyListener {
 			case KeyEvent.VK_SPACE:
 				if(pressingSpace) {
 					pressingSpace = false;
-					spacePressed = true;
 				}
+				break;
+			case KeyEvent.VK_Z:
+				pressingZ = false;
 				break;
 			default:
 				

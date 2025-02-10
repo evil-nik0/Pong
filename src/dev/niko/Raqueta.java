@@ -9,7 +9,7 @@ public class Raqueta implements KeyListener {
 	public Rectangle r;
 	
 	public static int LONGITUD = 102;
-	public static int ANCHO = 24;
+	public static int ANCHO = 12; //12 es buen ancho
 	public static double VELOCIDAD = 10;
 	public static int X_POS_P1 = ANCHO;
 	public static int X_POS_P2 = Cancha.width - ANCHO;
