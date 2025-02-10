@@ -14,11 +14,14 @@ public class Main {
 		long mSPF = Math.floorDiv(1000, FPS);
 		long iTime;
 		double[] colisionp1, colisionp2;
+		double multiplicadorPlaying = 1.05, multiplicadorTension = 1.2;
+		double multiplicador = multiplicadorPlaying;
 		
 		pres.addKeyListener(p1);
 		pres.addKeyListener(p2);
 		pres.addKeyListener(ctrles);
 		
+		Sounds.initSong();
 		
 		//se requiere un latido del modelo cada 1/FPS segundos. En el caso de que un latido ocupe un intervalo temporal mayor al aquél cociente, el siguiente latido
 		//comienza inmediatamente terminado el anterior
@@ -37,6 +40,7 @@ public class Main {
 			if(p.posicion.y - (p.diametro)/2 < 0 || p.posicion.y + (p.diametro)/2 > Cancha.height) {
 				p.velocidad.y *= -1;
 				p.update();
+				Sounds.playSFX("hitw");
 			}
 			//choque con raquetas
 			colisionp1 = PhysicsEngine.areRectanglesColliding(p.r, p1.r);
@@ -58,7 +62,8 @@ public class Main {
 				p.velocidad.x /= p.velocidad.x;
 				p.velocidad.x *= Math.sqrt(p.VELOCIDAD_MODULO * p.VELOCIDAD_MODULO - p.velocidad.y * p.velocidad.y);
 				
-				p.VELOCIDAD_MODULO *= 1.05;
+				p.VELOCIDAD_MODULO *= multiplicador;
+				Sounds.playSFX("hitr");
 			} else if(colisionp2[1] != -1) {
 				Vector normal = Vector.crearUnitario(colisionp2[1]), normalConMTV;
 				double porcentajeDeAlejamientoDelCentro; 
@@ -82,17 +87,30 @@ public class Main {
 				p.velocidad.x /= (-p.velocidad.x);
 				p.velocidad.x *= Math.sqrt(p.VELOCIDAD_MODULO * p.VELOCIDAD_MODULO - p.velocidad.y * p.velocidad.y);
 				
-				p.VELOCIDAD_MODULO *= 1.05;
+				p.VELOCIDAD_MODULO *= multiplicador;
+				
+				Sounds.playSFX("hitr");
 			}
 			//bingo! osea, choque con linea de puntos
 			if(p.posicion.x - p.diametro / 2 <= 0) {
 				Score.p2Score++;
 				Score.ultimoPunto = 2;
 				p.reiniciar();
+				Sounds.playSFX("point");
+				if(Score.p2Score >= Score.MAXSCORE - 4 && Sounds.songPlaying) {
+					Sounds.initTension();
+					multiplicador = multiplicadorTension;
+				}
+					
 			} else if(p.posicion.x + p.diametro / 2 >= Cancha.width) {
 				Score.p1Score++;
 				Score.ultimoPunto = 1;
 				p.reiniciar();
+				Sounds.playSFX("point");
+				if(Score.p1Score >= Score.MAXSCORE - 4 && Sounds.songPlaying) {
+					Sounds.initTension();
+					multiplicador = multiplicadorTension;
+				}
 			}
 			
 			pres.repaint();
