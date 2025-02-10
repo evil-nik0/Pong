@@ -8,7 +8,7 @@ public class Raqueta implements KeyListener {
 	public boolean P1UP, P1DOWN, P2UP, P2DOWN;
 	public Rectangle r;
 	
-	public static int LONGITUD = 102;
+	public static int LONGITUD = 122;
 	public static int ANCHO = 12; //12 es buen ancho
 	public static double VELOCIDAD = 10;
 	public static int X_POS_P1 = ANCHO;

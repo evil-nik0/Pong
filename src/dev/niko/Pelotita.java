@@ -8,7 +8,8 @@ public class Pelotita {
 	public static int diametro = 20;
 	public Rectangle r;
 	
-	public static double VELOCIDAD_MODULO = 10;
+	private static double VELOCIDAD_MODULO_INICIAL = 10;
+	public static double VELOCIDAD_MODULO = VELOCIDAD_MODULO_INICIAL;
 	public static Random randomGen;
 	
 	static {
@@ -28,6 +29,7 @@ public class Pelotita {
 	
 	public void reiniciar() {
 		this.posicion = new Vector(Cancha.width/2, Cancha.height/2);
+		VELOCIDAD_MODULO = VELOCIDAD_MODULO_INICIAL;
 		randomizeVelocity();
 	}
 	

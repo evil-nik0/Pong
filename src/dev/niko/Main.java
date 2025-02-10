@@ -57,6 +57,8 @@ public class Main {
 				p.velocidad.y = p.VELOCIDAD_MODULO * porcentajeDeAlejamientoDelCentro;
 				p.velocidad.x /= p.velocidad.x;
 				p.velocidad.x *= Math.sqrt(p.VELOCIDAD_MODULO * p.VELOCIDAD_MODULO - p.velocidad.y * p.velocidad.y);
+				
+				p.VELOCIDAD_MODULO *= 1.05;
 			} else if(colisionp2[1] != -1) {
 				Vector normal = Vector.crearUnitario(colisionp2[1]), normalConMTV;
 				double porcentajeDeAlejamientoDelCentro; 
@@ -79,6 +81,8 @@ public class Main {
 				p.velocidad.y = p.VELOCIDAD_MODULO * porcentajeDeAlejamientoDelCentro;
 				p.velocidad.x /= (-p.velocidad.x);
 				p.velocidad.x *= Math.sqrt(p.VELOCIDAD_MODULO * p.VELOCIDAD_MODULO - p.velocidad.y * p.velocidad.y);
+				
+				p.VELOCIDAD_MODULO *= 1.05;
 			}
 			//bingo! osea, choque con linea de puntos
 			if(p.posicion.x - p.diametro / 2 <= 0) {
@@ -95,6 +99,9 @@ public class Main {
 			
 			if(ctrles.isZPressed()) mSPF = Math.floorDiv(1000, 10);
 			else mSPF = Math.floorDiv(1000, FPS);
+			
+			if(Double.isNaN(p.posicion.x) || Double.isNaN(p.posicion.y)) p.reiniciar(); //ésto a veces pasa, cuándo choca la pelotita con alguna cara vertical y ésta
+			//se está moviendo
 		}
 
 	}
