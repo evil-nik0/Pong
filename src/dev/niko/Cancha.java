@@ -1,6 +1,6 @@
 package dev.niko;
 
 public class Cancha {
-	public static int width = 1000;
-	public static int height = 1000;
+	public static int width = 500;
+	public static int height = 500;
 }

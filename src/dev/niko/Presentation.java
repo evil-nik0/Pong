@@ -55,8 +55,8 @@ public class Presentation extends Frame {
 		g.fillRect(xP1, yP1, P1.ANCHO, P1.LONGITUD);
 		g.fillRect(xP2, yP2, P2.ANCHO, P2.LONGITUD);
 		g.fillOval(xp, yp, p.diametro, p.diametro);
-		g.drawString(Score.p1Score+"", 490, 40);
-		g.drawString(Score.p2Score+"", 534, 40);
+		g.drawString(Score.p1Score+"", Cancha.width/2 - 40, 40);
+		g.drawString(Score.p2Score+"", Cancha.width/2 + 40, 40);
 		
 		frameG.drawImage(doubleBuffer, getInsets().left, getInsets().top, null);
 		
