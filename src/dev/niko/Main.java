@@ -16,6 +16,7 @@ public class Main {
 		double[] colisionp1, colisionp2;
 		double multiplicadorPlaying = 1.05, multiplicadorTension = 1.2;
 		double multiplicador = multiplicadorPlaying;
+		GameStateEnum gs = GameStateEnum.PLAYING;
 		
 		pres.addKeyListener(p1);
 		pres.addKeyListener(p2);
@@ -27,7 +28,28 @@ public class Main {
 		//comienza inmediatamente terminado el anterior
 		iTime = System.currentTimeMillis();
 		while(true) if( System.currentTimeMillis() - iTime > mSPF ) {
+		
 			iTime = System.currentTimeMillis();
+			
+			if(gs == GameStateEnum.YOUAREWINNER) {
+				if( pres.gs == GameStateEnum.PLAYING ) {
+					pres.gs = GameStateEnum.YOUAREWINNER;
+					pres.whoIsWinner = Score.ultimoPunto;
+				}
+				if(ctrles.isSpacePressed()) {
+					Score.p1Score = 0;
+					Score.p2Score = 0;
+					Sounds.initSong();
+					p.reiniciar();
+					gs = GameStateEnum.PLAYING;
+					multiplicador = multiplicadorPlaying;
+					pres.gs = GameStateEnum.PLAYING;
+					p1.alturaCentro = Cancha.height / 2;
+					p2.alturaCentro = Cancha.height / 2;
+				}
+				pres.repaint();
+				continue;
+			}
 			
 			p1.update();
 			p2.update();
@@ -97,9 +119,13 @@ public class Main {
 				Score.ultimoPunto = 2;
 				p.reiniciar();
 				Sounds.playSFX("point");
-				if(Score.p2Score >= Score.MAXSCORE - 4 && Sounds.songPlaying) {
+				if(Score.p2Score >= Score.MAXSCORE - Score.howMuchForTension && Sounds.songPlaying) {
 					Sounds.initTension();
 					multiplicador = multiplicadorTension;
+				}
+				if(Score.p2Score == Score.MAXSCORE) {
+					Sounds.initVictory();
+					gs = GameStateEnum.YOUAREWINNER;
 				}
 					
 			} else if(p.posicion.x + p.diametro / 2 >= Cancha.width) {
@@ -107,9 +133,13 @@ public class Main {
 				Score.ultimoPunto = 1;
 				p.reiniciar();
 				Sounds.playSFX("point");
-				if(Score.p1Score >= Score.MAXSCORE - 4 && Sounds.songPlaying) {
+				if(Score.p1Score >= Score.MAXSCORE - Score.howMuchForTension && Sounds.songPlaying) {
 					Sounds.initTension();
 					multiplicador = multiplicadorTension;
+				}
+				if(Score.p1Score == Score.MAXSCORE) {
+					Sounds.initVictory();
+					gs = GameStateEnum.YOUAREWINNER;
 				}
 			}
 			

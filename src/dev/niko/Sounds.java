@@ -23,6 +23,7 @@ public class Sounds {
 		Cancha cancha = new Cancha(); //solo es para obtener un class loader
 		if(song != null) song.stop();
 		if(tension != null) tension.stop();
+		if(victory != null) victory.stop();
 		try {
 			song = AudioSystem.getClip();
 			AudioInputStream ais = AudioSystem.getAudioInputStream( cancha.getClass().getResource("song.wav") );
@@ -40,6 +41,7 @@ public class Sounds {
 		Cancha cancha = new Cancha(); //solo es para obtener un class loader
 		if(song != null) song.stop();
 		if(tension != null) tension.stop();
+		if(victory != null) victory.stop();
 		try {
 			tension = AudioSystem.getClip();
 			AudioInputStream ais = AudioSystem.getAudioInputStream( cancha.getClass().getResource("tension.wav") );
@@ -48,6 +50,24 @@ public class Sounds {
 			songPlaying = false;
 			tensionPlaying = true;
 			victoryPlaying = false;
+		} catch(Throwable t) {
+			System.err.println(t);
+		}
+	}
+	
+	public static void initVictory() {
+		Cancha cancha = new Cancha(); //solo es para obtener un class loader
+		if(song != null) song.stop();
+		if(tension != null) tension.stop();
+		if(victory != null) victory.stop();
+		try {
+			victory = AudioSystem.getClip();
+			AudioInputStream ais = AudioSystem.getAudioInputStream( cancha.getClass().getResource("fanfare.wav") );
+			victory.open(ais);
+			victory.start();
+			songPlaying = false;
+			tensionPlaying = false;
+			victoryPlaying = true;
 		} catch(Throwable t) {
 			System.err.println(t);
 		}
